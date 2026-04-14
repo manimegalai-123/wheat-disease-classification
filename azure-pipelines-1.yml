@@ -5,31 +5,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- script: ls -R
+  displayName: "Check Structure"
 
-# Use Python
-- task: UsePythonVersion@0
+- task: Maven@4
   inputs:
-    versionSpec: '3.10'
-  displayName: "Use Python"
-
-# Install dependencies
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    pip install pytest pytest-azurepipelines
-  displayName: "Install Dependencies"
-
-# Debug (optional but useful)
-- script: |
-    ls -R
-  displayName: "Check Repo Structure"
-
-# Run tests
-- script: |
-    pytest test.py
-  displayName: "Run Tests"
-
-# Run training
-- script: |
-    python train.py
-  displayName: "Run Training"
+    mavenPomFile: 'pom.xml'   # change if inside folder
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '17'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'clean test'
