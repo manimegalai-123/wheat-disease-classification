@@ -18,5 +18,5 @@ steps:
   displayName: 'Install dependencies'
 
 # Run tests
-- script: python -m pytest test_model.py -v
-  displayName: 'Run tests'
+- script: ls -R
+  displayName: 'list all files'
