@@ -4,19 +4,41 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-# Use Python
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.10'
-  displayName: 'Set Python version'
+stages:
 
-# Install dependencies
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+# 🔹 BUILD STAGE
+- stage: Build
+  displayName: "Build Stage"
+  jobs:
+  - job: BuildJob
+    displayName: "Install Dependencies"
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.10'
 
-# Run tests
-- script: ls -R
-  displayName: 'list all files'
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      displayName: "Install dependencies"
+
+    - script: ls -R
+      displayName: "Check project files"
+
+
+# 🔹 TEST STAGE
+- stage: Test
+  displayName: "Test Stage"
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    displayName: "Run Tests"
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.10'
+
+    - script: |
+        pip install pytest
+        pytest test_model.py -v
+      displayName: "Run pytest"
