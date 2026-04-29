@@ -15,7 +15,7 @@ stages:
     steps:
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.10'
+        versionSpec: '3.11'
 
     - script: |
         python -m pip install --upgrade pip
@@ -36,7 +36,7 @@ stages:
     steps:
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.10'
+        versionSpec: '3.11'
 
     - script: |
         pip install pytest
