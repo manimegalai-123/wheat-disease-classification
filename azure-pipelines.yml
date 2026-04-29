@@ -5,8 +5,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: ls -R
-  displayName: "Check Structure"
+- script: pip install -r requirements.txt
+  displayName: "installation of requirements"
 
 - task: Maven@4
   inputs:
